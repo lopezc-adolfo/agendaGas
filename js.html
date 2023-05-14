@@ -1,8 +1,12 @@
 <script>
 
     function crearTablaContactos() {
-        let tabla = document.getElementById('tablaContactos');
-        if (tabla) tabla.remove();
+        
+        //Eliminamos la tabla
+        eliminarTabla();
+
+        //Crear loader
+        crearLoaderPuntos('divContactos')
 
         google.script.run
         .withSuccessHandler(crearTablaContactosCorrectamente)
@@ -47,12 +51,18 @@
 
         //Mostrar notificación de ok
         crearNotificacionOk('Contactos obtenidos correctamente', 'Todo en orden');
+
+        //Eliminamos loader
+        eliminarLoader();
     }
 
     function crearTablaContactosError() {
 
         //Mostrar notificación de error
         crearNotificacionError('No se pudieron leer los contactos', 'ERROR');
+        
+        //Eliminamos loader
+        eliminarLoader();
         
     }
 
@@ -99,6 +109,37 @@
     function crearColorNotificacion(color) {
         let elementoNotificacion = document.getElementById('notificacion');
         elementoNotificacion.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue(color);
+    }
+
+    function crearLoader(elementoPadre) {
+        eliminarLoader();
+        let loader = document.createElement('div');
+        loader.id = 'loader';
+        loader.appendChild(document.createElement('div'));
+        loader.appendChild(document.createElement('div'));
+        loader.appendChild(document.createElement('div'));
+        loader.appendChild(document.createElement('div'));
+        return document.getElementById(elementoPadre).appendChild(loader);
+    }
+
+    function crearLoaderPuntos(elementoPadre) {
+        let loader = crearLoader(elementoPadre);
+        loader.classList.add('lds-ellipsis');
+    }
+
+    function crearLoaderAnillo() {
+        let loader = crearLoader(elementoPadre);
+        loader.classList.add('lds-ring');
+    }
+
+    function eliminarLoader() {
+        let loader = document.getElementById('loader');
+        if(loader) loader.remove();
+    }
+
+    function eliminarTabla() {
+        let tabla = document.getElementById('tablaContactos');
+        if (tabla) tabla.remove();
     }
 
 </script>
