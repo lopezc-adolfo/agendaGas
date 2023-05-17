@@ -6,9 +6,12 @@
         let nombre = document.getElementById('nombre').value;
         let correo = document.getElementById('correo').value;
 
+        //Cerrar modal
+        bootstrap.Modal.getInstance(document.getElementById('crearContactoModal')).hide();
+
         //Eliminar tablar
         eliminarTabla();
-        
+
         //Crear loader
         crearLoaderPuntos('divContactos')
 
@@ -38,7 +41,6 @@
 
         //Eliminar loader
         eliminarLoader();
-        
 
         //Crear tabla contactos
         crearTablaContactos();
