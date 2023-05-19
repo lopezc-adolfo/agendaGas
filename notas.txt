@@ -1,4 +1,0 @@
-Directorio 1
-D:\\Proyectos\\Personal\\gas\\agendaGas
-Directorio 2
-/Users/Adolfo/Desktop/Indata/gas/agendaGas
