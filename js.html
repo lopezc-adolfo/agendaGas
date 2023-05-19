@@ -76,12 +76,12 @@
             celda.textContent = obj[0][i];
             primeraFila.appendChild(celda);
         }
+
         //Agregar columna opciones
         let celdaOpciones = document.createElement('td');
         celdaOpciones.textContent = 'Opciones';
         celdaOpciones.classList.add('text-center');
         primeraFila.appendChild(celdaOpciones);
-
 
         //Agregar fila al header de la tabla
         tablaHeader.appendChild(primeraFila);
@@ -102,8 +102,10 @@
 
         //Agregamos el cuerpo a la tabla
         tabla.appendChild(tablaBody);
+
         //Agregamos clases a la tabla
         tabla.classList.add('table', 'table-striped', 'border', 'border-3', 'border-dark');
+
         //Agregamos tabla a la página
         document.getElementById('divContactos').appendChild(tabla);
 
@@ -151,17 +153,17 @@
         let boton = document.getElementById('botonCrearModificar');
         boton.textContent = 'Crear contacto';
         boton.classList = '';
-        boton.classList.add('btn btn-success');
+        boton.classList.add('btn', 'btn-success');
 
         //Cambiar título del modal
         document.getElementById('tituloModal').textContent = 'Crear contacto';
 
         //Modificar submit
-        document.getElementById('formulario').onsubmit = () => insertarContacto(numFila);
+        document.getElementById('formulario').onsubmit = () => insertarContacto();
 
         //Obtener datos
         document.getElementById('nombre').value = '';
-        document.getElementById('apellido').value = '';
+        document.getElementById('apellidos').value = '';
         document.getElementById('correo').value = '';
         document.getElementById('telf').value = '';
 
@@ -174,7 +176,7 @@
         let boton = document.getElementById('botonCrearModificar');
         boton.textContent = 'Modificar contacto';
         boton.classList = '';
-        boton.classList.add('btn btn-warning');
+        boton.classList.add('btn', 'btn-warning');
 
         //Cambiar título del modal
         document.getElementById('tituloModal').textContent = 'Modificar contacto';
@@ -184,7 +186,7 @@
 
         //Obtener datos
         document.getElementById('nombre').value = datosContacto[0];
-        document.getElementById('apellido').value = datosContacto[1];
+        document.getElementById('apellidos').value = datosContacto[1];
         document.getElementById('correo').value = datosContacto[2];
         document.getElementById('telf').value = datosContacto[3];
 
@@ -201,7 +203,6 @@
         let apellidos = document.getElementById('apellidos').value;
         let correo = document.getElementById('correo').value;
         let telf = document.getElementById('telf').value;
-
 
         //Eliminar tablar
         eliminarTabla();
@@ -304,23 +305,23 @@
     const ICONO_ADVERTENCIA = 'bi-exclamation-square';
 
     function crearNotificacionOk(mensaje, titulo) {
-        crearNotificacion(titulo, mensaje, ICONO_CHECK, '--color-verde-oscuro')
+        crearNotificacion(titulo, mensaje, ICONO_CHECK, '--color-verde-oscuro');
     }
 
     function crearNotificacionError(mensaje, titulo) {
-        crearNotificacion(titulo, mensaje, ICONO_ERROR, '--color-rojo-oscuro')
+        crearNotificacion(titulo, mensaje, ICONO_ERROR, '--color-rojo-oscuro');
     }
 
     function crearNotificacionContacto(mensaje, titulo) {
-        crearNotificacion(titulo, mensaje, ICONO_CONTACTO, '--color-azul-oscuro')
-    }   
+        crearNotificacion(titulo, mensaje, ICONO_CONTACTO, '--color-azul-oscuro');
+    }
 
     function crearNotificacionAdvertencia(mensaje, titulo) {
-        crearNotificacion(titulo, mensaje, ICONO_ADVERTENCIA, '--color-amarillo-oscuro')
+        crearNotificacion(titulo, mensaje, ICONO_ADVERTENCIA, '--color-amarillo-oscuro');
     }
 
     function crearNotificacionBorrar(mensaje, titulo) {
-        crearNotificacion(titulo, mensaje, ICONO_PAPELERA, '--color-gris-oscuro')
+        crearNotificacion(titulo, mensaje, ICONO_PAPELERA, '--color-gris-oscuro');
     }
 
     function crearNotificacion(titulo, mensaje, icono, color) {
@@ -338,19 +339,20 @@
         //Evento
         notificacion.addEventListener('hidden.bs.toast', function () {
             this.remove();
-        })
+        });
 
-        //Agregamos la contenedor de notificaciones
+        //Agregamos al contenedor de notificaciones
         document.getElementById('contenedorNotificaciones').appendChild(notificacion);
 
         //Instancia y mostrar
-        bootstrap.Toast.getOrCreateInstance(notificacion);
+        bootstrap.Toast.getOrCreateInstance(notificacion).show();
     }
 
-    function cuerpoNotificacion(mensaje) {
+    function crearCuerpoNotificacion(mensaje) {
         let cuerpoNotificacion = document.createElement('div');
         cuerpoNotificacion.classList.add('toast-body');
         cuerpoNotificacion.textContent = mensaje
+        return cuerpoNotificacion;
     }
 
     function crearCabeceraNotificacion(titulo, icono) {
@@ -375,7 +377,6 @@
         let iconoNotificacion = document.createElement('i');
         divIcono.classList.add('icono-notificacion');
         iconoNotificacion.classList.add('bi', icono);
-
         divIcono.appendChild(iconoNotificacion);
         contenedor.appendChild(divIcono);
     }
@@ -384,9 +385,9 @@
         let notificacion = document.createElement('div');
         notificacion.classList.add('toast', 'align-items-center', 'text-white', 'border-0');
         notificacion.setAttribute('role', 'alert');
-        notificacion.setAttribute('aria-live', 'asertive');
+        notificacion.setAttribute('aria-live', 'assertive');
         notificacion.setAttribute('aria-atomic', 'true');
-        return notificacion
+        return notificacion;
     }
 
 </script>
