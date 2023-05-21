@@ -21,6 +21,10 @@
         crearLoaderPuntos('divContactos');
     }
 
+    //
+    //INSERTAR CONTACTO
+    //
+
     function insertarContacto() {
         limpiar();
 
@@ -65,153 +69,9 @@
         crearTablaContactos();
     }
 
-    function crearTablaContactos() {
-        limpiar();
-
-        google.script.run
-            .withSuccessHandler(crearTablaContactosCorrectamente)
-            .withFailureHandler(crearTablaContactosError)
-            .obtenerContactos();
-    }
-
-    function crearTablaContactosCorrectamente(obj) {
-        tabla = document.createElement('table');
-        tabla.id = 'tablaContactos';
-        let tablaHeader = document.createElement('thead');
-        let tablaBody = document.createElement('tbody');
-
-        // Header de la tabla
-        let primeraFila = document.createElement('tr');
-        for (let i = 0; i < obj[0].length; i++) {
-            let celda = document.createElement('td');
-            celda.textContent = obj[0][i];
-            primeraFila.appendChild(celda);
-        }
-
-        //Agregar columna opciones
-        let celdaOpciones = document.createElement('td');
-        celdaOpciones.textContent = 'Opciones';
-        celdaOpciones.classList.add('text-center');
-        primeraFila.appendChild(celdaOpciones);
-
-        //Agregar fila al header de la tabla
-        tablaHeader.appendChild(primeraFila);
-        tablaHeader.classList.add('table-dark');
-        tabla.appendChild(tablaHeader);
-
-        //Body de la tabla
-        for (let i = 1; i < obj.length; i++) {
-            let fila = document.createElement('tr');
-            for (let j = 0; j < obj[i].length; j++) {
-                let celda = document.createElement('td');
-                celda.textContent = obj[i][j];
-                fila.appendChild(celda);
-
-                if (j == 4) {
-                    celda.textContent = '';
-                    let imagen = document.createElement('img');
-                    imagen.classList.add('img-fluid', 'rounded');
-                    imagen.src = obj[i][j];
-                    celda.appendChild(imagen);
-                }
-            }
-            fila.appendChild(crearCeldaBotones(i + 1, obj[i]));
-            tablaBody.appendChild(fila);
-        }
-
-        //Agregamos el cuerpo a la tabla
-        tabla.appendChild(tablaBody);
-
-        //Agregamos clases a la tabla
-        tabla.classList.add('table', 'table-striped', 'border', 'border-3', 'border-dark');
-
-        //Agregamos tabla a la página
-        document.getElementById('divContactos').appendChild(tabla);
-
-        //Mostrar notificación de ok
-        //crearNotificacionOk('Contactos obtenidos correctamente', 'Todo en orden');
-
-        //Eliminamos loader
-        eliminarLoader();
-    }
-
-    function crearCeldaBotones(numFila, datosContacto) {
-        //Crear celda
-        let celda = document.createElement('td');
-        celda.classList.add('text-center');
-
-        //Crear botón borrar
-        let botonBorrar = document.createElement('button');
-        botonBorrar.onclick = () => borrarContacto(numFila);
-        botonBorrar.classList.add('btn', 'btn-danger', 'm-1');
-
-        //Ícono borrar
-        let iconoBorrar = document.createElement('i');
-        iconoBorrar.classList.add('bi', 'bi-trash');
-        botonBorrar.appendChild(iconoBorrar);
-
-        //Crear botón modificar
-        let botonModificar = document.createElement('button');
-        botonModificar.onclick = () => abrirModalModificarContacto(numFila, datosContacto);
-        botonModificar.classList.add('btn', 'btn-warning', 'm-1');
-
-        //Ícono modificar
-        let iconoModificar = document.createElement('i');
-        iconoModificar.classList.add('bi', 'bi-pencil-square');
-        botonModificar.appendChild(iconoModificar);
-
-        //Agregar botones a la celda
-        celda.appendChild(botonBorrar);
-        celda.appendChild(botonModificar);
-
-        return celda;
-    }
-
-    function abrirModalCrearContacto() {
-        //Botón modificar
-        let boton = document.getElementById('botonCrearModificar');
-        boton.textContent = 'Crear contacto';
-        boton.classList = '';
-        boton.classList.add('btn', 'btn-success');
-
-        //Cambiar título del modal
-        document.getElementById('tituloModal').textContent = 'Crear contacto';
-
-        //Modificar submit
-        document.getElementById('formulario').onsubmit = () => insertarContacto();
-
-        //Obtener datos
-        document.getElementById('nombre').value = '';
-        document.getElementById('apellidos').value = '';
-        document.getElementById('correo').value = '';
-        document.getElementById('telf').value = '';
-
-        //Abrir modal
-        bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).show();
-    }
-
-    function abrirModalModificarContacto(numFila, datosContacto) {
-        //Botón modificar
-        let boton = document.getElementById('botonCrearModificar');
-        boton.textContent = 'Modificar contacto';
-        boton.classList = '';
-        boton.classList.add('btn', 'btn-warning');
-
-        //Cambiar título del modal
-        document.getElementById('tituloModal').textContent = 'Modificar contacto';
-
-        //Modificar submit
-        document.getElementById('formulario').onsubmit = () => modificarContacto(numFila);
-
-        //Obtener datos
-        document.getElementById('nombre').value = datosContacto.nombre;
-        document.getElementById('apellidos').value = datosContacto.apellidos;
-        document.getElementById('correo').value = datosContacto.correo;
-        document.getElementById('telf').value = datosContacto.telf;
-
-        //Abrir modal
-        bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).show();
-    }
+    //
+    //MODIFICAR CONTACTO
+    //
 
     function modificarContacto(numFila) {
         limpiar();
@@ -243,6 +103,10 @@
         crearTablaContactos();
     }
 
+    //
+    //BORRAR CONTACTO
+    //
+
     function borrarContacto(numFila) {
         limpiar();
 
@@ -264,50 +128,10 @@
         crearTablaContactos();
     }
 
-    function crearTablaContactosError() {
-        //Mostrar notificación de error
-        crearNotificacionError('No se pudieron leer los contactos', 'ERROR');
-
-        //Eliminamos loader
-        eliminarLoader();
-    }
-
-    function crearLoader(elementoPadre) {
-        eliminarLoader();
-        let loader = document.createElement('div');
-        loader.id = 'loader';
-        loader.appendChild(document.createElement('div'));
-        loader.appendChild(document.createElement('div'));
-        loader.appendChild(document.createElement('div'));
-        loader.appendChild(document.createElement('div'));
-        return document.getElementById(elementoPadre).appendChild(loader);
-    }
-
-    function crearLoaderPuntos(elementoPadre) {
-        let loader = crearLoader(elementoPadre);
-        loader.classList.add('lds-ellipsis');
-    }
-
-    function crearLoaderAnillo() {
-        let loader = crearLoader(elementoPadre);
-        loader.classList.add('lds-ring');
-    }
-
-    function eliminarLoader() {
-        let loader = document.getElementById('loader');
-        if (loader) loader.remove();
-    }
-
-    function eliminarTabla() {
-        let tabla = document.getElementById('tablaContactos');
-        if (tabla) tabla.remove();
-    }
-
-    function eliminarTarjetas() {
-        let tarjetas = document.getElementById('tarjetasContacto');
-        if (tarjetas) tarjetas.remove();
-    }
-
+    //
+    //IMPORTAR CONTACTO
+    //
+    
     function importarContactos() {
         limpiar();
 
@@ -328,188 +152,5 @@
         eliminarLoader();
         crearTablaContactos();
     }
-
-    //
-    //TARJETAS DE CONTACTOS
-    //
-
-    function crearTarjetasContactos() {
-        limpiar();
-
-        google.script.run
-            .withSuccessHandler(crearTarjetasCorrectamente)
-            .withFailureHandler(crearTarjetasError)
-            .obtenerContactos();
-    }
-
-    function crearTarjetasError() {
-        //Mostrar notificación de error
-        crearNotificacionError('No se pudieron crear las tarjetas', 'ERROR');
-
-        //Eliminamos loader
-        eliminarLoader();
-    }
-
-    function crearTarjetasCorrectamente(obj) {
-        let tarjetas = document.createElement('div')
-        tarjetas.id = 'tarjetasContacto';
-        tarjetas.classList.add('container');
-
-        for (let i = 1; i < obj.length; i++) {
-            let tarjeta = {
-                nombre: obj[i][0],
-                apellidos: obj[i][1],
-                correo: obj[i][2],
-                telf: obj[i][3],
-                imagen: obj[i][4],
-                indice: i + 1
-            };
-
-            //Agregamos tarjeta al total de tarjetas
-            tarjetas.appendChild(crearTarjeta(tarjeta));
-        }
-
-        //Agregar tarjetas
-        document.getElementById('divContactos').appendChild(tarjetas)
-
-        //Eliminamos loader
-        eliminarLoader();
-    }
-
-    function crearTarjeta(tarjeta) {
-
-        //divTarjeta
-        let divTarjeta = document.createElement('div');
-        divTarjeta.id = 'tarjeta' + tarjeta.indice;
-        divTarjeta.classList.add('row', 'border', 'border-3', 'border-dark', 'rounded', 'bg-light', 'm-3', 'p-3');
-
-        //Creamos datos y botones
-        let datosTarjeta = crearDatosTarjeta(tarjeta);
-        let divBotones = crearBotonesTarjeta(tarjeta);
-        datosTarjeta.appendChild(divBotones);
-
-        //Creamos imagen
-        let imagenTarjeta = crearImagenTarjeta(tarjeta);
-
-        //Agregamos todo al divTarjeta
-        divTarjeta.appendChild(datosTarjeta);
-        divTarjeta.appendChild(imagenTarjeta);
-
-        return divTarjeta;
-    }
-
-    function crearDatosTarjeta(tarjeta) {
-        let datosTarjeta = document.createElement('div');
-        datosTarjeta.classList.add('col-6', 'd-flex', 'flex-column', 'align-items-start');
-
-        //Nombre
-        let nombre = document.createElement('h3');
-        nombre.textContent = tarjeta.nombre + ' ' + tarjeta.apellidos;
-
-        //Correo
-        let correo = document.createElement('div');
-        correo.classList.add('d-flex');
-        let iconoCorreo = document.createElement('i');
-        iconoCorreo.classList.add('bi', 'bi-envelope-fill', 'me-2')
-        let tituloCorreo = document.createElement('h5');
-        tituloCorreo.textContent = tarjeta.correo;
-        correo.appendChild(iconoCorreo);
-        correo.appendChild(tituloCorreo);
-
-        //Teléfono
-        let telf = document.createElement('div');
-        telf.classList.add('d-flex');
-        let iconoTelf = document.createElement('i');
-        iconoTelf.classList.add('bi', 'bi-telephone-fill', 'me-2')
-        let tituloTelf = document.createElement('h5');
-        tituloTelf.textContent = tarjeta.telf;
-        telf.appendChild(iconoTelf);
-        telf.appendChild(tituloTelf);
-
-        //Agregamos datos
-        datosTarjeta.appendChild(nombre);
-        datosTarjeta.appendChild(correo);
-        datosTarjeta.appendChild(telf);
-
-        return datosTarjeta;
-    }
-
-    function crearBotonesTarjeta(tarjeta) {
-        let divBotones = document.createElement('div')
-        divBotones.classList.add('d-flex', 'justify-content-start', 'mt-auto');
-
-        divBotones.appendChild(crearBotonInfoTarjeta(tarjeta));
-        divBotones.appendChild(crearBotonBorrarTarjeta(tarjeta));
-        divBotones.appendChild(crearBotonModificarTarjeta(tarjeta));
-
-        return divBotones;
-    }
-
-    function crearBotonInfoTarjeta() {
-        //Botón info
-        let botonInfo = document.createElement('button');
-        botonInfo.id = 'botonInfo' + tarjeta.indice;
-        botonInfo.classList.add('btn', 'btn-success', 'm-1');
-        botonInfo.onclick = () => mostrarInformacionAdicionalContacto(tarjeta);
-
-        //Ícono
-        let iconoInfo = document.createElement('i');
-        iconoInfo.classList.add('bi', 'bi-plus-square');
-        botonInfo.appendChild(iconoInfo);
-
-        return botonInfo;
-    }
-
-    function crearBotonBorrarTarjeta() {
-        //Botón borrar
-        let botonDanger = document.createElement('button');
-        botonDanger.id = 'botonDanger' + tarjeta.indice;
-        botonDanger.classList.add('btn', 'btn-danger', 'm-1');
-        botonDanger.onclick = () => borrarContacto(tarjeta.indice);
-
-        //Ícono
-        let iconoDanger = document.createElement('i');
-        iconoDanger.classList.add('bi', 'bi-trash');
-        botonDanger.appendChild(iconoDanger);
-
-        return botonDanger;
-    }
-
-    function crearBotonModificarTarjeta() {
-        //Botón modificar
-        let botonModificar = document.createElement('button');
-        botonModificar.id = 'botonModificar' + tarjeta.indice;
-        botonModificar.classList.add('btn', 'btn-warning', 'm-1');
-        botonModificar.onclick = () => abrirModalModificarContacto(tarjeta.indice, tarjeta);
-
-        //Ícono
-        let iconoModificar = document.createElement('i');
-        iconoModificar.classList.add('bi', 'bi-pencil-square');
-        botonModificar.appendChild(iconoModificar);
-
-        return botonModificar;
-    }
-
-    function crearImagenTarjeta(tarjeta) {
-        let imagenTarjeta =  document.createElement('div');
-        imagenTarjeta.classList.add('col-6', 'rounded', 'd-flex', 'justify-content-end');
-        let cajaImagenTarjeta = document.createElement('div');
-        cajaImagenTarjeta.classList.add('btn', 'border-3', 'border-dark', 'rounded');
-        let imagen = document.createElement('img');
-        imagen.classList.add('img-fluid', 'rounded', 'img-contacto');
-        imagen.src = tarjeta.imagen;
-
-        //Agregamos imagen a la caja y tarjeta
-        cajaImagenTarjeta.appendChild(imagen);
-        imagenTarjeta.appendChild(cajaImagenTarjeta);
-
-        return imagenTarjeta;
-    }
-
-    function mostrarInformacionAdicionalContacto(tarjeta) {
-
-    }
-
-
 
 </script>
