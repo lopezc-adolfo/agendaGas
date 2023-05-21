@@ -254,13 +254,11 @@
     }
 
     function crearTablaContactosError() {
-
         //Mostrar notificación de error
         crearNotificacionError('No se pudieron leer los contactos', 'ERROR');
 
         //Eliminamos loader
         eliminarLoader();
-
     }
 
     function crearLoader(elementoPadre) {
@@ -292,6 +290,31 @@
     function eliminarTabla() {
         let tabla = document.getElementById('tablaContactos');
         if (tabla) tabla.remove();
+    }
+
+    function importarContactos() {
+        //Eliminamos la tabla
+        eliminarTabla();
+
+        //Crear loader
+        crearLoaderPuntos('divContactos')
+
+        google.script.run
+            .withSuccessHandler(contactosImportadosCorrectamente)
+            .withFailureHandler(contactosImportadosError)
+            .importarContactos();
+    }
+
+    function contactosImportadosCorrectamente() {
+        crearNotificacionOk('Se han agregado los contactos correctamente', 'OK');
+        eliminarLoader();
+        crearTablaContactos();
+    }
+
+    function contactosImportadosError() {
+        crearNotificacionError('No se ha podido importar los contactos', 'ERROR');
+        eliminarLoader();
+        crearTablaContactos();
     }
 
 </script>
