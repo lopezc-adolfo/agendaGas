@@ -95,6 +95,14 @@
                 let celda = document.createElement('td');
                 celda.textContent = obj[i][j];
                 fila.appendChild(celda);
+
+                if(j == 4) {
+                    celda.textContent = '';
+                    let imagen = document.createElement('img');
+                    imagen.classList.add('img-fluid', 'rounded');
+                    imagen.src = obj[i][j];
+                    celda.appendChild(imagen);
+                }
             }
             fila.appendChild(crearCeldaBotones(i + 1, obj[i]));
             tablaBody.appendChild(fila);
