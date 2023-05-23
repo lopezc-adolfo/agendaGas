@@ -11,7 +11,7 @@
     });
 
     //Cargar imagen
-    document.getElementById('imagen').addEventListener('change', function() {
+    document.getElementById('imagen').addEventListener('change', function () {
         document.getElementById('imgForm').src = URL.createObjectURL(this.files[0]);
     });
 
@@ -37,20 +37,48 @@
 
     function insertarContacto() {
         limpiar();
-
-        //Obtener datos
-        let nombre = document.getElementById('nombre').value;
-        let apellidos = document.getElementById('apellidos').value;
-        let correo = document.getElementById('correo').value;
-        let telf = document.getElementById('telf').value;
-
-        //Cerrar modal
         bootstrap.Modal.getInstance(document.getElementById('crearContactoModal')).hide();
 
-        google.script.run
-            .withSuccessHandler(contactoInsertadoCorrectamente)
-            .withFailureHandler(contactoInsertadoError)
-            .insertarContacto(nombre, apellidos, correo, telf);
+        let contacto = guardarDatosContacto();
+        console.log(contacto);
+        let archivo = document.getElementById('imagen').files[0];
+
+        if (archivo) subirImagen(contacto, archivo);
+        else {
+            google.script.run
+                .withSuccessHandler(contactoInsertadoCorrectamente)
+                .withFailureHandler(contactoInsertadoError)
+                .insertarContacto(contacto);
+        }
+    }
+
+    function guardarDatosContacto() {
+        let contacto = {
+            nombre: document.getElementById('nombre').value,
+            apellidos: document.getElementById('apellidos').value,
+            correo: document.getElementById('correo').value,
+            telf: document.getElementById('telf').value,
+            imagen: document.getElementById('imgForm').src
+        };
+        return contacto;
+    }
+
+    function subirImagen(contacto, archivo) {
+        let fr = new FileReader();
+        fr.readAsArrayBuffer(archivo);
+
+        fr.onload = function () {
+            let imagen = {
+                nombre: archivo.name,
+                tipo: archivo.type,
+                datos: Array.from(new Int8Array(this.result))
+            }
+            google.script.run
+                .withSuccessHandler(contactoInsertadoCorrectamente)
+                .withFailureHandler(contactoInsertadoError)
+                .insertarContacto(contacto, imagen);
+        }
+
     }
 
     function contactoInsertadoCorrectamente() {
