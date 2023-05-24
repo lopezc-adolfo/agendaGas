@@ -44,6 +44,8 @@
         document.getElementById('apellidos').value = contacto.apellidos;
         document.getElementById('correo').value = contacto.correo;
         document.getElementById('telf').value = contacto.telf;
+        document.getElementById('imagen').value = '';
+        document.getElementById('imgForm').src = contacto.imagen;
 
         //Abrir modal
         bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).show();
