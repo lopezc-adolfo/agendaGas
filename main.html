@@ -2,10 +2,15 @@
 
     <!-- Botones superiores -->
     <div class="d-flex justify-content-center my-3">
-        <button type="button" class="btn btn-success m-2" onclick="crearTarjetasContactos()">Mostrar contactos</button>
-        <button type="button" class="btn btn-success m-2" onclick="crearTablaContactos()">Mostrar contactos
-            Tabla</button>
-        <button type="button" class="btn btn-primary m-2" onclick="abrirModalCrearContacto()">Crear contacto</button>
+        <button type="button" class="btn btn-success m-2" onclick="crearTarjetasContactos()">
+            <i class="bi bi-postcard"></i>
+        </button>
+        <button type="button" class="btn btn-success m-2" onclick="crearTablaContactos()">
+            <i class="bi bi-table"></i>
+        </button>
+        <button type="button" class="btn btn-primary m-2" onclick="abrirModalCrearContacto()">
+            <i class="bi bi-person-plus"></i>
+        </button>
         <button type="button" class="btn btn-warning m-2" onclick="importarContactos()">+ 5</button>
     </div>
 
@@ -32,6 +37,7 @@
                 <!-- Formulario de crear contacto -->
                 <form onsubmit="insertarContacto()" method="dialog" id="formulario">
                     <div class="modal-body ">
+
                         <div class="row mb-3">
                             <!-- Parte izquierda -->
                             <div class="col-6 d-flex flex-column">
@@ -61,7 +67,8 @@
                                 </div>
                                 <!-- Archivo -->
                                 <div class="m-2">
-                                    <label for="imagen" class="form-label">Selecciona una imagen para el contacto</label>
+                                    <label for="imagen" class="form-label">Selecciona una imagen para el
+                                        contacto</label>
                                     <input type="file" accept="imagen/*" class="form-control" name="imagen" id="imagen">
                                 </div>
                             </div>

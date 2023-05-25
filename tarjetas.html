@@ -37,7 +37,7 @@
         contactos.forEach(contacto => {
             tarjetas.appendChild(crearContactoTarjeta(contacto));
         });
-            
+
         //Agregar tarjetas
         document.getElementById('divContactos').appendChild(tarjetas)
 
@@ -115,17 +115,27 @@
     }
 
     function crearImagenTarjeta(contacto) {
-        let imagenTarjeta =  document.createElement('div');
+        let imagenTarjeta = document.createElement('div');
         imagenTarjeta.classList.add('col-6', 'rounded', 'd-flex', 'justify-content-end');
         let cajaImagenTarjeta = document.createElement('div');
-        cajaImagenTarjeta.classList.add('btn', 'border-3', 'border-dark', 'rounded');
+        cajaImagenTarjeta.classList.add('btn', 'rounded', 'd-flex', 'justify-content-center', 'align-items-center', 'img-contacto');
         let imagen = document.createElement('img');
-        imagen.classList.add('img-fluid', 'rounded', 'img-contacto');
+        imagen.classList.add('img-fluid', 'border-3', 'border-dark', 'rounded', 'img-contacto');
         imagen.src = contacto.imagen;
+        imagen.style.display = 'none';
 
         //Agregamos imagen a la caja y tarjeta
         cajaImagenTarjeta.appendChild(imagen);
         imagenTarjeta.appendChild(cajaImagenTarjeta);
+
+        //Crear ícono de carga
+        let loader = crearLoaderImagen(cajaImagenTarjeta);
+
+        //Evento al finalizar la carga
+        imagen.onload = () => {
+            loader.remove();
+            imagen.style.display = 'inline';
+        }
 
         return imagenTarjeta;
     }

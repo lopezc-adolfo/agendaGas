@@ -1,5 +1,17 @@
 <script>
 
+    const ICONO_CHECK = 'bi-check2-square';
+    const ICONO_PAPELERA = 'bi-trash';
+    const ICONO_CONTACTO = 'bi-person-plus-fill';
+    const ICONO_ERROR = 'bi-bug';
+    const ICONO_ADVERTENCIA = 'bi-exclamation-square';
+
+    const LOTTIE_CHECK = 'https://assets.lottiefiles.com/private_files/lf30_dfspihm8.json';
+    const LOTTIE_PAPELERA = 'https://assets.lottiefiles.com/packages/lf20_WcyRdM.json';
+    const LOTTIE_CONTACTO = 'https://assets.lottiefiles.com/packages/lf20_sOjs8q/add_contact_05.json';
+    const LOTTIE_ERROR = 'https://assets.lottiefiles.com/packages/lf20_yw3nyrsv.json';
+    const LOTTIE_ADVERTENCIA = 'https://assets.lottiefiles.com/packages/lf20_qbuxqwzg.json';
+    const LOTTIE_LOADER_AVION_PAPEL = 'https://assets9.lottiefiles.com/packages/lf20_qwewibxa.json';
     //Botón subir
     window.addEventListener('scroll', function () {
         if (this.window.scrollY > 500) {
@@ -23,7 +35,7 @@
     function limpiar() {
         eliminarTabla();
         eliminarTarjetas();
-        crearLoaderPuntos('divContactos');
+        crearLoaderLottie('divContactos', LOTTIE_LOADER_AVION_PAPEL);
     }
 
     function mostrar() {
@@ -40,10 +52,9 @@
         bootstrap.Modal.getInstance(document.getElementById('crearContactoModal')).hide();
 
         let contacto = guardarDatosContacto();
-        console.log(contacto);
         let archivo = document.getElementById('imagen').files[0];
 
-        if (archivo) subirImagen(contacto, archivo);
+        if (archivo) subirImagenInsertar(contacto, archivo);
         else {
             google.script.run
                 .withSuccessHandler(contactoInsertadoCorrectamente)
@@ -63,7 +74,7 @@
         return contacto;
     }
 
-    function subirImagen(contacto, archivo) {
+    function subirImagenInsertar(contacto, archivo) {
         let fr = new FileReader();
         fr.readAsArrayBuffer(archivo);
 
@@ -108,17 +119,37 @@
         //Cerrar modal
         bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).hide();
 
-        //Obtener nuevos DATOS a partir del formulario
-        let nombre = document.getElementById('nombre').value;
-        let apellidos = document.getElementById('apellidos').value;
-        let correo = document.getElementById('correo').value;
-        let telf = document.getElementById('telf').value;
-        //let imagen = document.getElementById('imgForm').src;
+        let contacto = guardarDatosContacto();
+        contacto.fila = numFila;
 
-        google.script.run
-            .withSuccessHandler(contactoModificadoCorrectamente)
-            .withFailureHandler(contactoModificadoError)
-            .modificarContacto(numFila, { nombre, apellidos, correo, telf });
+        let archivo = document.getElementById('imagen').files[0];
+
+        if (archivo) subirImagenModificar(contacto, archivo);
+        else {
+            google.script.run
+                .withSuccessHandler(contactoModificadoCorrectamente)
+                .withFailureHandler(contactoModificadoError)
+                .modificarContacto(contacto);
+        }
+
+    }
+
+    function subirImagenModificar(contacto, archivo) {
+        let fr = new FileReader();
+        fr.readAsArrayBuffer(archivo);
+
+        fr.onload = function () {
+            let imagen = {
+                nombre: archivo.name,
+                tipo: archivo.type,
+                datos: Array.from(new Int8Array(this.result))
+            }
+            google.script.run
+                .withSuccessHandler(contactoModificadoCorrectamente)
+                .withFailureHandler(contactoModificadoError)
+                .modificarContacto(contacto, imagen);
+        }
+
     }
 
     function contactoModificadoCorrectamente() {
