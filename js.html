@@ -61,6 +61,37 @@
         document.getElementById('lottieForm').style.display = 'none';
     });
 
+    //Copiar correo
+    document.getElementById('copiarCorreo').addEventListener('click', function (event) {
+        copiarContenido(this, 'correoInfoContacto');
+    });
+
+    //Copiar teléfono
+    document.getElementById('copiarTelf').addEventListener('click', function (event) {
+        copiarContenido(this, 'telfInfoContacto');
+    });
+
+    function copiarContenido(icono, id) {
+        let texto = document.getElementById(id).textContent;
+        navigator.clipboard.writeText(texto)
+        .then(() => {
+            icono.classList.remove('bi-clipboard');
+            icono.classList.add('bi-check-lg');
+            icono.title = 'Copiado'
+            bootstrap.Tooltip.getOrCreateInstance(icono).show();
+            restaurarIcono(icono);
+        });
+    }
+
+    function restaurarIcono(icono) {
+        setTimeout(function() {
+            icono.classList.remove('bi-check-lg');
+            icono.classList.add('bi-clipboard');
+            icono.title = '';
+            bootstrap.Tooltip.getOrCreateInstance(icono).dispose();
+        }, 2000);
+    }
+
 
     /* --- FUNCIONES --- */
 
@@ -245,6 +276,9 @@
         mostrar();
     }
 
+
+    /* Habilitar componentes Bootstrap */
+
     //Habilitar popovers
     var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
     var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
@@ -252,9 +286,9 @@
     })
 
     //Habilitar tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    /* var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+    }) */
 
 </script>
