@@ -36,13 +36,13 @@
     document.getElementById('imgForm').addEventListener('dragover', function(event) {
         event.preventDefault();
         this.style.filter = 'opacity(0%)';
-        document.getElementById('cajaIconoForm').style.display = 'flex';
+        document.getElementById('lottieForm').style.display = 'flex';
     });
 
     //dragleave
     document.getElementById('imgForm').addEventListener('dragleave', function(event) {
         this.style.filter = 'opacity(100%)';
-        document.getElementById('cajaIconoForm').style.display = 'none';
+        document.getElementById('lottieForm').style.display = 'none';
     });
 
     //drop
@@ -58,7 +58,7 @@
 
         //Mostramos la imagen y quitamos la zona de carga
         this.style.filter = 'opacity(100%)';
-        document.getElementById('cajaIconoForm').style.display = 'none';
+        document.getElementById('lottieForm').style.display = 'none';
     });
 
 
