@@ -28,7 +28,7 @@
     <!-- Modal -->
     <div class="modal fade" id="crearContactoModal" tabindex="-1" aria-labelledby="tituloCrearContactoModal"
         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-lg modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="tituloModal">Nuevo contacto</h5>
@@ -38,9 +38,9 @@
                 <form onsubmit="insertarContacto()" method="dialog" id="formulario">
                     <div class="modal-body ">
 
-                        <div class="row mb-3">
+                        <div class="mb-3 d-flex justify-content-center align-items-center flex-wrap">
                             <!-- Parte izquierda -->
-                            <div class="col-6 d-flex flex-column">
+                            <div class="div-datos-form">
                                 <!-- Nombre -->
                                 <div class="m-2">
                                     <label for="nombre" class="form-label">Nombre</label>
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <!-- Parte derecha -->
-                            <div class="col-6 d-flex justify-content-center align-items-center p-0 position-relative">
+                            <div class="div-img-form">
                                 <img class="img-fluid img-form" id="imgForm" alt="Imagen de contacto">
                                 <div class="caja-icono-form container-fluid" id="cajaIconoForm">
                                     <i class="icono-img-form bi bi-cloud-plus"></i>
