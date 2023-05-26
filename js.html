@@ -14,7 +14,7 @@
     const LOTTIE_ERROR = 'https://assets.lottiefiles.com/packages/lf20_yw3nyrsv.json';
     const LOTTIE_ADVERTENCIA = 'https://assets.lottiefiles.com/packages/lf20_qbuxqwzg.json';
     const LOTTIE_LOADER_AVION_PAPEL = 'https://assets9.lottiefiles.com/packages/lf20_qwewibxa.json';
-    
+
     /* --- EVENTOS ---*/
 
     //Botón subir
@@ -32,20 +32,34 @@
         document.getElementById('imgForm').src = URL.createObjectURL(this.files[0]);
     });
 
-    //dragover
+    //dragover 
     document.getElementById('imgForm').addEventListener('dragover', function(event) {
+        event.preventDefault();
         this.style.filter = 'opacity(0%)';
         document.getElementById('cajaIconoForm').style.display = 'flex';
     });
 
     //dragleave
-    document.getElementById('imgForm').addEventListener('dragover', function(event) {
+    document.getElementById('imgForm').addEventListener('dragleave', function(event) {
         this.style.filter = 'opacity(100%)';
         document.getElementById('cajaIconoForm').style.display = 'none';
     });
 
     //drop
+    document.getElementById('imgForm').addEventListener('drop', function(event) {
+        event.preventDefault();
+        let ficheros = event.dataTransfer.files;
 
+        //Pasamos los archivos al input
+        document.getElementById('imagen').files = ficheros;
+
+        //Creamos una url para mostrar la imagen
+        document.getElementById('imgForm').src = URL.createObjectURL(ficheros[0]);
+
+        //Mostramos la imagen y quitamos la zona de carga
+        this.style.filter = 'opacity(100%)';
+        document.getElementById('cajaIconoForm').style.display = 'none';
+    });
 
 
     /* --- FUNCIONES --- */
