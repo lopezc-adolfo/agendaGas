@@ -18,13 +18,32 @@
         tarjetas.classList.add("d-flex", "justify-content-center", "flex-wrap");
 
         //Por cada contacto crear una tarjeta
-        contactos.forEach(contacto => tarjetas.appendChild(crearContactoPlantilla(contacto)));
+        //contactos.forEach(contacto => tarjetas.appendChild(crearContactoPlantilla(contacto)));
+
+        contactos.forEach(contacto => tarjetas.innerHTML += (crearContactoHTML(contacto)));
 
         //Agregar tarjetas
         document.getElementById('divContactos').appendChild(tarjetas);
 
         //Eliminamos loader
         eliminarLoader();
+    }
+
+    function crearContactoHTML(contacto) {
+        return `
+        <div id='tarjetas${contacto.fila}' class='my-5 mx-2'>
+            <div class='caja-contacto'>
+                <img src='${contacto.imagen}' alt='Imagen del contacto'>
+                <div class='datos-contacto'>
+                    <h3>${contacto.nombre + contacto.apellidos}</h3>
+                    <span>
+                        <a onclick='abrirModalInfoContacto(${JSON.stringify(contacto)})' class='boton-caja btn btn-success'><i class='bi bi-plus-square'></i></a>
+                        <a onclick='abrirModalModificarContacto(${JSON.stringify(contacto)})' class='boton-caja btn btn-warning'><i class='bi bi-pencil-square'></i></a>
+                        <a onclick='borrarContacto(${contacto.fila})' class='boton-caja btn btn-danger'><i class='bi bi-trash'"></i></a>                        
+                    </span>
+                </div>
+            </div>
+        </div>`;
     }
 
     function crearContactoPlantilla(contacto) {
@@ -50,7 +69,7 @@
             loader.remove();
             tarjeta.style.display = 'inline';
         }
-        
+
         return copia;
     }
 
