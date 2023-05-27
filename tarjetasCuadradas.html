@@ -20,7 +20,7 @@
         //Por cada contacto crear una tarjeta
         //contactos.forEach(contacto => tarjetas.appendChild(crearContactoPlantilla(contacto)));
 
-        contactos.forEach(contacto => tarjetas.innerHTML += (crearContactoHTML(contacto)));
+        contactos.forEach(contacto => tarjetas.innerHTML += (crearContactoHTMLEstilo1(contacto)));
 
         //Agregar tarjetas
         document.getElementById('divContactos').appendChild(tarjetas);
@@ -29,9 +29,26 @@
         eliminarLoader();
     }
 
-    function crearContactoHTML(contacto) {
+    function crearContactoHTMLEstilo1(contacto) {
         return `
-        <div id='tarjetas${contacto.fila}' class='my-5 mx-2'>
+        <div id='tarjetas${contacto.fila}' class='caja-estilo-1 my-5 mx-2'>
+            <div class='caja-contacto'>
+                <img src='${contacto.imagen}' alt='Imagen del contacto'>
+                <div class='datos-contacto'>
+                    <h3>${contacto.nombre + contacto.apellidos}</h3>
+                    <span>
+                        <a onclick='abrirModalInfoContacto(${JSON.stringify(contacto)})' class='boton-caja btn btn-success'><i class='bi bi-plus-square'></i></a>
+                        <a onclick='abrirModalModificarContacto(${JSON.stringify(contacto)})' class='boton-caja btn btn-warning'><i class='bi bi-pencil-square'></i></a>
+                        <a onclick='borrarContacto(${contacto.fila})' class='boton-caja btn btn-danger'><i class='bi bi-trash'"></i></a>                        
+                    </span>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    function crearContactoHTMLEstilo2(contacto) {
+        return `
+        <div id='tarjetas${contacto.fila}' class='caja-estilo-2 m-2'>
             <div class='caja-contacto'>
                 <img src='${contacto.imagen}' alt='Imagen del contacto'>
                 <div class='datos-contacto'>
