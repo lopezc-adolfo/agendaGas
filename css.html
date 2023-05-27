@@ -220,9 +220,27 @@
 
 
     /* Estilo 4 */
-    /* .caja-estilo-4 .caja-contacto{
-        
-    } */
+    .caja-estilo-4 .caja-contacto img{
+        z-index: 2;
+        transition: all .4s;
+    }
+
+    .caja-estilo-4 .datos-contacto {
+        height: 100%;
+        width: 100%;
+        border-radius: .3rem;
+        border: .3rem solid var(--color-gris-oscuro);
+        transition: all .4s;
+        background: linear-gradient(180deg, black 0%, var(--color-rojo-oscuro) 100%);
+    }
+
+    .caja-estilo-4 .caja-contacto:hover img {
+        transform: scale(0.6);
+    }
+
+    .caja-estilo-4 .caja-contacto:hover .datos-contacto {
+        transform: scale(1.3);
+    }
 
     /* Estilo 5 */
     /* .caja-estilo-5 .caja-contacto{
