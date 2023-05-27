@@ -186,7 +186,7 @@
     }
 
     /* Estilo 1 */
-/*     .caja-estilo-1 {
+    /* .caja-estilo-1 {
 
     } */
 
@@ -194,6 +194,40 @@
     .caja-estilo-2 .caja-contacto{
         overflow: hidden;
     }
+
+    /* Estilo 3 */
+    .caja-estilo-3 .caja-contacto{
+        overflow: hidden;
+    }
+
+    .caja-estilo-3 .datos-contacto{
+        height: 100%;
+        width: 50%;
+        transform: scaleX(0);
+        transform-origin: 0 0;
+        transition: all .5s;
+    }
+
+    .caja-estilo-3 .caja-contacto:hover .datos-contacto{
+        transform: scaleX(1);
+        z-index: 2;
+    }
+
+    .caja-estilo-3 .caja-contacto:hover img{
+        transform: translateX(30%) scale(1.1);
+        filter: grayscale(100%);
+    }
+
+
+    /* Estilo 4 */
+    /* .caja-estilo-4 .caja-contacto{
+        
+    } */
+
+    /* Estilo 5 */
+    /* .caja-estilo-5 .caja-contacto{
+        
+    } */
 
     .plantilla-loader {
         width: 16rem;
