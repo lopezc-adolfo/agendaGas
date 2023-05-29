@@ -1,14 +1,6 @@
 <script>
-    //
-    //TARJETAS DE CONTACTOS
-    //
 
-    function eliminarTarjetas() {
-        let tarjetas = document.getElementById('tarjetasContacto');
-        if (tarjetas) tarjetas.remove();
-    }
-
-    function crearTarjetasContactos() {
+    function crearTarjetas() {
         limpiar();
 
         google.script.run
@@ -19,7 +11,7 @@
 
     function crearTarjetasError() {
         //Mostrar notificación de error
-        crearNotificacionError('No se pudieron crear las tarjetas', 'ERROR');
+        crearNotificacionError('No se han podido crear las tarjetas', 'ERROR');
 
         //Eliminamos loader
         eliminarLoader();
@@ -29,119 +21,45 @@
         //Extraer los contactos
         let contactos = extraerContactos(datos);
 
-        let tarjetas = document.createElement('div')
-        tarjetas.id = 'tarjetasContacto';
-        tarjetas.classList.add('container');
+        let tarjetas = document.createElement('div');
+        tarjetas.id = "tarjetasContacto";
+        tarjetas.classList.add("d-flex", "justify-content-center", "flex-wrap");
 
-        //Por cada contacto agregamos una tarjeta
-        contactos.forEach(contacto => {
-            tarjetas.appendChild(crearContactoTarjeta(contacto));
-        });
+        //Por cada contacto crear una tarjeta
+        contactos.forEach(contacto => tarjetas.appendChild(crearContactoPlantilla(contacto)));
 
         //Agregar tarjetas
-        document.getElementById('divContactos').appendChild(tarjetas)
+        document.getElementById('divContactos').appendChild(tarjetas);
 
         //Eliminamos loader
         eliminarLoader();
     }
 
-    function crearContactoTarjeta(contacto) {
+    function crearContactoPlantilla(contacto) {
+        let plantilla = document.getElementById(estiloActual);
+        let copia = document.importNode(plantilla.content, true);
 
-        //divTarjeta
-        let divTarjeta = document.createElement('div');
-        divTarjeta.id = 'tarjeta' + contacto.indice;
-        divTarjeta.classList.add('row', 'border', 'border-3', 'border-dark', 'rounded', 'bg-light', 'm-3', 'p-3');
+        copia.getElementById('plantillaNumero').id = 'tarjeta' + contacto.fila;
+        copia.getElementById('plantillaNombre').textContent = contacto.nombre + ' ' + contacto.apellidos;
+        copia.getElementById('plantillaImagen').src = contacto.imagen;
 
-        //Creamos datos y botones
-        let datosTarjeta = crearDatosTarjeta(contacto);
-        let divBotones = crearBotonesTarjeta(contacto);
-        datosTarjeta.appendChild(divBotones);
+        //Botones
+        copia.getElementById('plantillaInfo').onclick = () => abrirModalInfoContacto(contacto);
+        copia.getElementById('plantillaEditar').onclick = () => abrirModalModificarContacto(contacto);
+        copia.getElementById('plantillaBorrar').onclick = () => borrarContacto(contacto.fila);
 
-        //Creamos imagen
-        let imagenTarjeta = crearImagenTarjeta(contacto);
+        let loader = copia.getElementById('plantillaLoader');
+        let tarjeta = copia.getElementById('tarjeta' + contacto.fila);
 
-        //Agregamos todo al divTarjeta
-        divTarjeta.appendChild(datosTarjeta);
-        divTarjeta.appendChild(imagenTarjeta);
+        tarjeta.style.display = 'none';
 
-        return divTarjeta;
-    }
-
-    function crearDatosTarjeta(contacto) {
-        let datosTarjeta = document.createElement('div');
-        datosTarjeta.classList.add('col-6', 'd-flex', 'flex-column', 'align-items-start');
-
-        //Nombre
-        let nombre = document.createElement('h3');
-        nombre.textContent = contacto.nombre + ' ' + contacto.apellidos;
-
-        //Correo
-        let correo = document.createElement('div');
-        correo.classList.add('d-flex');
-        let iconoCorreo = document.createElement('i');
-        iconoCorreo.classList.add('bi', 'bi-envelope-fill', 'me-2')
-        let tituloCorreo = document.createElement('h5');
-        tituloCorreo.textContent = contacto.correo;
-        correo.appendChild(iconoCorreo);
-        correo.appendChild(tituloCorreo);
-
-        //Teléfono
-        let telf = document.createElement('div');
-        telf.classList.add('d-flex');
-        let iconoTelf = document.createElement('i');
-        iconoTelf.classList.add('bi', 'bi-telephone-fill', 'me-2')
-        let tituloTelf = document.createElement('h5');
-        tituloTelf.textContent = contacto.telf;
-        telf.appendChild(iconoTelf);
-        telf.appendChild(tituloTelf);
-
-        //Agregamos datos
-        datosTarjeta.appendChild(nombre);
-        datosTarjeta.appendChild(correo);
-        datosTarjeta.appendChild(telf);
-
-        return datosTarjeta;
-    }
-
-    function crearBotonesTarjeta(contacto) {
-        let divBotones = document.createElement('div')
-        divBotones.classList.add('d-flex', 'justify-content-start', 'mt-auto');
-
-        divBotones.appendChild(crearBotonInfoContacto(contacto));
-        divBotones.appendChild(crearBotonBorrarContacto(contacto));
-        divBotones.appendChild(crearBotonModificarContacto(contacto));
-
-        return divBotones;
-    }
-
-    function crearImagenTarjeta(contacto) {
-        let imagenTarjeta = document.createElement('div');
-        imagenTarjeta.classList.add('col-6', 'rounded', 'd-flex', 'justify-content-end');
-        let cajaImagenTarjeta = document.createElement('div');
-        cajaImagenTarjeta.classList.add('btn', 'rounded', 'd-flex', 'justify-content-center', 'align-items-center', 'img-contacto');
-        let imagen = document.createElement('img');
-        imagen.classList.add('img-fluid', 'border-3', 'border-dark', 'rounded', 'img-contacto');
-        imagen.src = contacto.imagen;
-        imagen.style.display = 'none';
-
-        //Agregamos imagen a la caja y tarjeta
-        cajaImagenTarjeta.appendChild(imagen);
-        imagenTarjeta.appendChild(cajaImagenTarjeta);
-
-        //Crear ícono de carga
-        let loader = crearLoaderImagen(cajaImagenTarjeta);
-
-        //Evento al finalizar la carga
-        imagen.onload = () => {
+        //Evento finalización carga de la imagen
+        copia.getElementById('plantillaImagen').onload = () => {
             loader.remove();
-            imagen.style.display = 'inline';
+            tarjeta.style.display = 'inline';
         }
 
-        return imagenTarjeta;
-    }
-
-    function mostrarInformacionAdicionalContacto(contacto) {
-
+        return copia;
     }
 
 </script>

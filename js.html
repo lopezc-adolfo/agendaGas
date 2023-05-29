@@ -157,6 +157,21 @@
         mostrar();
     }
 
+    function extraerContactos(datos) {
+        let contactos = [];
+        for (let i = 1; i < datos.length; i++) {
+            contactos.push(new Contacto(
+                datos[i][0],
+                datos[i][1],
+                datos[i][2],
+                datos[i][3],
+                datos[i][4],
+                i + 1
+            ));
+        }
+        return contactos;
+    }
+
     //
     //INSERTAR CONTACTO
     //
