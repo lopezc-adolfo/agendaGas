@@ -10,6 +10,11 @@
         Contacto.nuevo();
     });
 
+    //Importar contactos
+    document.getElementById('importarContactos').addEventListener('click', function () {
+        importarContactos();
+    });
+
     //Eventos botones mostrar contactos
     document.getElementById('tarjetasEstilo1').addEventListener('click', function (event) {
         Contacto.aplicarEstilo(Contacto.ESTILO_1);
@@ -35,6 +40,10 @@
         if (this.window.scrollY < 500) {
             document.getElementById('botonSubir').style.transform = "scale(0)";
         }
+    });
+    document.getElementById('botonSubir').addEventListener('click', function () {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
     });
 
     //Cargar imagen
