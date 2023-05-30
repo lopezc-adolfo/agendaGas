@@ -27,8 +27,15 @@
     let estiloActual = ESTILO_TARJETA_1;
 
     /* --- EVENTOS ---*/
+    
+    //Inicio
     window.addEventListener('load', function() {
         mostrar();
+    });
+
+    //Insertar contacto
+    document.getElementById('insertarContacto').addEventListener('click', function() {
+        Contacto.nuevo();
     });
 
     //Eventos botones mostrar contactos
@@ -180,7 +187,7 @@
         limpiar();
         bootstrap.Modal.getInstance(document.getElementById('crearContactoModal')).hide();
 
-        let contacto = guardarDatosContacto();
+        let contacto = Contacto.guardarDatosContacto();
         let archivo = document.getElementById('imagen').files[0];
 
         if (archivo) subirImagenInsertar(contacto, archivo);
@@ -190,17 +197,6 @@
                 .withFailureHandler(contactoInsertadoError)
                 .insertarContacto(contacto);
         }
-    }
-
-    function guardarDatosContacto() {
-        let contacto = {
-            nombre: document.getElementById('nombre').value,
-            apellidos: document.getElementById('apellidos').value,
-            correo: document.getElementById('correo').value,
-            telf: document.getElementById('telf').value,
-            imagen: document.getElementById('imgForm').src
-        };
-        return contacto;
     }
 
     function subirImagenInsertar(contacto, archivo) {
@@ -248,8 +244,7 @@
         //Cerrar modal
         bootstrap.Modal.getOrCreateInstance(document.getElementById('crearContactoModal')).hide();
 
-        let contacto = guardarDatosContacto();
-        contacto.fila = numFila;
+        let contacto = Contacto.guardarDatosContacto(numFila);
 
         let archivo = document.getElementById('imagen').files[0];
 
