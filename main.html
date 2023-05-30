@@ -2,24 +2,16 @@
 
     <!-- Botones superiores -->
     <div class="d-flex justify-content-center my-3">
-        <!-- <button type="button" class="btn btn-success m-2" onclick="crearTarjetasCuadradas()">
-            <i class="bi bi-postcard"></i>
-        </button>
-        <button type="button" class="btn btn-success m-2" onclick="crearTablaContactos()">
-            <i class="bi bi-table"></i>
-        </button> -->
         <button id="insertarContacto" type="button" class="btn btn-primary m-2">
             <i class="bi bi-person-plus"></i>
         </button>
-        <button type="button" class="btn btn-warning m-2" onclick="importarContactos()">+ 5</button>
+        <button type="button" class="btn btn-warning m-2" onclick="importarContactos">+ 5</button>
         <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle m-2" type="button" id="desplegableEstilos"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-gear fs-5"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="desplegableEstilos">
-                <li><a class="dropdown-item" id="tarjetasEstiloTabla">Estilo tabla</a></li>
-                <li><a class="dropdown-item" id="tarjetasEstiloFila">Estilo fila</a></li>
                 <li><a class="dropdown-item" id="tarjetasEstilo1">Estilo tarjeta 1</a></li>
                 <li><a class="dropdown-item" id="tarjetasEstilo2">Estilo tarjeta 2</a></li>
                 <li><a class="dropdown-item" id="tarjetasEstilo3">Estilo tarjeta 3</a></li>
@@ -50,38 +42,37 @@
                 </div>
 
                 <!-- Formulario de crear contacto -->
-                <form onsubmit="insertarContacto()" method="dialog" id="formulario">
+                <form method="dialog" id="formulario">
                     <div class="modal-body ">
-
                         <div class="mb-3 d-flex justify-content-center align-items-center flex-wrap">
                             <!-- Parte izquierda -->
                             <div class="div-datos-form">
                                 <!-- Nombre -->
-                                <div class="m-2">
+                                <div class="mb-2">
                                     <label for="nombre" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" name="nombre" id="nombre" pattern="[\D]*"
                                         title="El nombre no puede contener números" required>
                                 </div>
                                 <!-- Apellidos -->
-                                <div class="m-2">
+                                <div class="mb-2">
                                     <label for="apellidos" class="form-label">Apellidos</label>
                                     <input type="text" class="form-control" name="apellidos" id="apellidos"
                                         pattern="[^0-9]*" title="El o los apellidos no pueden contener números"
                                         required>
                                 </div>
                                 <!-- Correo -->
-                                <div class="m-2 input-group">
+                                <div class="mb-2 input-group">
                                     <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
                                     <input type="email" class="form-control" name="correo" id="correo" required>
                                 </div>
                                 <!-- Teléfono -->
-                                <div class="m-2 input-group">
+                                <div class="mb-2 input-group">
                                     <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
                                     <input type="tel" class="form-control" name="telf" id="telf" pattern="[\d]{9,11}"
                                         title="El teléfono debe contener de 9 a 11 dígitos numéricos" required>
                                 </div>
                                 <!-- Archivo -->
-                                <div class="m-2">
+                                <div class="mb-2">
                                     <label for="imagen" class="form-label">Selecciona una imagen para el
                                         contacto</label>
                                     <input type="file" accept="imagen/*" class="form-control" name="imagen" id="imagen">
