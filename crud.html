@@ -45,12 +45,12 @@
 
         //Mostramos notificación
         crearNotificacionContacto('Contacto insertado correctamente', 'Contacto Ok');
-        mostrar();
+        crearTarjetas();
     }
 
     function contactoInsertadoError() {
         crearNotificacionError('No se ha podido insertar el contacto', 'ERROR');
-        mostrar();
+        crearTarjetas();
     }
 
     //
@@ -97,12 +97,12 @@
 
     function contactoModificadoCorrectamente() {
         crearNotificacionContacto('Contacto modificado correctamente', 'Modificado Ok');
-        mostrar();
+        crearTarjetas();
     }
 
     function contactoModificadoError() {
         crearNotificacionError('No se ha podido modificar el contacto', 'ERROR');
-        mostrar();
+       crearTarjetas();
     }
 
     //
@@ -120,12 +120,12 @@
 
     function contactoBorradoCorrectamente() {
         crearNotificacionBorrar('Contacto borrado correctamente', 'Borrado Ok');
-        mostrar();
+        crearTarjetas();
     }
 
     function contactoBorradoError() {
         crearNotificacionError('No se ha podido borrar el contacto', 'ERROR');
-        mostrar();
+        crearTarjetas();
     }
 
     //
@@ -143,12 +143,12 @@
 
     function contactosImportadosCorrectamente() {
         crearNotificacionOk('Se han agregado los contactos correctamente', 'OK');
-        mostrar();
+        crearTarjetas();
     }
 
     function contactosImportadosError() {
         crearNotificacionError('No se ha podido importar los contactos', 'ERROR');
-        mostrar();
+        crearTarjetas();
     }
 
     //
